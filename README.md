@@ -4,6 +4,7 @@ Some supporting KQL queries for a blog
 The following KQL query gathers a geoIP list from another Github repo to support an early query.
 
 ```kusto
+// blog query 1 - IP, Netblock, Country of origin, Country name, Count
 let ipdata = externaldata(network:string,geoname_id:string,continent_code:string,continent_name:string,country_iso_code:string,country_name:string,is_anonymous_proxy:string,is_satellite_provider:string)
 [@"https://raw.githubusercontent.com/datasets/geoip2-ipv4/master/data/geoip2-ipv4.csv"];
 let IPs = union Event, SecurityEvent

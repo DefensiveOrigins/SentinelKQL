@@ -86,3 +86,23 @@ SecurityEvent
 | extend AccountEntity = Account
 | extend IPEntity = IpAddress
 ```
+
+Another query, another perspective!
+```kusto
+union Event, SecurityEvent
+| where TimeGenerated > ago(30m)
+| where EventID == 4625 or EventID == 4776
+| project Account , IpAddress
+| summarize USERs = make_set(Account) by IpAddress
+| where USERs[1] != ""
+```
+
+```kusto
+// Interesting perspective on failed logins
+SecurityEvent
+| where TimeGenerated > ago(30m)
+| where EventID == 4625
+| project TimeGenerated, EventID, WorkstationName, Computer, Account, LogonTypeName, IpAddress
+| extend AccountEntity = Account
+| extend IPEntity = IpAddress
+```

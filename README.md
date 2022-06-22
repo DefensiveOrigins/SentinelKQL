@@ -96,13 +96,3 @@ union Event, SecurityEvent
 | summarize USERs = make_set(Account) by IpAddress
 | where USERs[1] != ""
 ```
-
-```kusto
-// Interesting perspective on failed logins
-SecurityEvent
-| where TimeGenerated > ago(30m)
-| where EventID == 4625
-| project TimeGenerated, EventID, WorkstationName, Computer, Account, LogonTypeName, IpAddress
-| extend AccountEntity = Account
-| extend IPEntity = IpAddress
-```
